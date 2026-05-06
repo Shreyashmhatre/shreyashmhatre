@@ -1,16 +1,20 @@
-## Hi there 👋
+# Hi, I'm Shreyash Mhatre 👋
 
-<!--
-**Shreyashmhatre/shreyashmhatre** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Aspiring AI & Data Engineer passionate about scalable data systems, backend workflows, and modern AI-driven technologies.
 
-Here are some ideas to get you started:
+## Tech Interests
+- Python
+- SQL
+- Data Engineering
+- ETL Concepts
+- AI Fundamentals
+- Backend Workflows
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Currently Learning
+- Data Pipelines
+- Apache Spark
+- Airflow Concepts
+- Cloud Data Technologies
+
+## Goals
+Building strong foundations in AI, Data Engineering, and scalable software systems.
