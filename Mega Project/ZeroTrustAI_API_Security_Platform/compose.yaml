@@ -1,0 +1,61 @@
+services:
+  gateway:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file: .env
+    environment:
+      ZT_UPSTREAM_URL: http://demo-api:8001
+      ZT_DATABASE_URL: postgresql+asyncpg://zerotrust:${ZT_DATABASE_PASSWORD:?Run scripts/init_env.py}@postgres/zerotrust
+      ZT_REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./ml/artifacts:/app/ml/artifacts:ro
+    depends_on:
+      demo-api:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+  demo-api:
+    build: .
+    env_file: .env
+    command: ["uvicorn", "demo_api.main:app", "--host", "0.0.0.0", "--port", "8001", "--no-proxy-headers"]
+    # Intentionally NOT published to the host: requests must pass the gateway.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+  redis:
+    image: redis:7.4-alpine
+    command: ["redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "noeviction"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: zerotrust
+      POSTGRES_USER: zerotrust
+      POSTGRES_PASSWORD: ${ZT_DATABASE_PASSWORD:?Run scripts/init_env.py}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zerotrust -d zerotrust"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+volumes:
+  postgres-data:

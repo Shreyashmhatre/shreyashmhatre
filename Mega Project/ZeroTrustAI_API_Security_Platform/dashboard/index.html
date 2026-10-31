@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZeroTrustAI · Security Operations</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <aside>
+    <a class="brand" href="/" aria-label="ZeroTrustAI home"><span class="brand-icon">Z</span><span>ZeroTrust<span class="accent">AI</span><small>API SECURITY PLATFORM</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <a class="nav active" href="#overview"><span>◈</span> Security overview</a>
+    <a class="nav" href="#events"><span>≡</span> Request telemetry</a>
+    <a class="nav" href="#quarantines"><span>◇</span> Quarantine controls</a>
+    <div class="aside-bottom"><span class="status-dot"></span> Local research environment<p>Never trust. Always verify.</p><small>v0.1 · Academic prototype</small></div>
+  </aside>
+  <main id="overview">
+    <header><div class="breadcrumb">Workspace <span>/</span> Security overview</div><div class="header-right"><span id="connection" class="pill">Not connected</span><button id="logout" class="quiet" hidden>Sign out</button></div></header>
+    <section class="heading"><div><div class="eyebrow">SECURITY OPERATIONS</div><h1>Your API. Under watch.</h1><p>Continuous verification, behavioral insights, and actionable security events.</p></div><div class="time-window">◷ &nbsp; Last 60 minutes</div></section>
+    <div id="notice" class="notice">Authenticate to view live telemetry. No simulated metrics are displayed.</div>
+    <section id="login-panel" class="panel login-panel">
+      <div><div class="eyebrow">RESTRICTED WORKSPACE</div><h2>Welcome to your command center.</h2><p>Use the administrator credentials generated in your local <code>.env</code> file.</p><p class="muted">Tokens stay in memory and expire after 15 minutes.</p></div>
+      <form id="login-form"><label for="username">Administrator username</label><input id="username" autocomplete="username" value="admin" required maxlength="100"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required maxlength="256"><button class="primary" type="submit">Enter workspace <span>→</span></button><p id="login-error" role="alert"></p></form>
+    </section>
+    <section class="metrics" aria-label="Request statistics">
+      <article class="metric"><div>Total requests <span>↗</span></div><strong id="total">—</strong><small>Inspected gateway transactions</small></article>
+      <article class="metric"><div>Allowed <span class="green">✓</span></div><strong id="allowed">—</strong><small>Passed to protected backend</small></article>
+      <article class="metric"><div>Prevented <span class="orange">◇</span></div><strong id="prevented">—</strong><small>Blocked, denied, or throttled</small></article>
+      <article class="metric"><div>Mean inspection <span>◷</span></div><strong id="latency">—</strong><small>Pre-forward checks, not a benchmark</small></article>
+    </section>
+    <section class="overview-grid">
+      <article class="panel"><div class="panel-heading"><div><h2>Policy outcomes</h2><p>Actual enforcement decisions in the current window</p></div><span class="live-label">● LIVE</span></div><div id="outcomes" class="outcomes"><p class="empty">Waiting for authenticated telemetry</p></div></article>
+      <article class="panel posture"><div class="panel-heading"><div><h2>Protection posture</h2><p>Know exactly what is active</p></div><span class="shield">⬡</span></div><dl><div><dt>Identity verification</dt><dd class="green">JWT + ownership checks</dd></div><div><dt>Detection engine</dt><dd id="model">—</dd></div><div><dt>Behavioral state</dt><dd id="state">—</dd></div><div><dt>Step-up MFA</dt><dd class="muted">Not implemented</dd></div><div><dt>Deep autoencoder</dt><dd class="muted">Planned</dd></div></dl><div class="posture-note">Anomaly scores supplement authorization. They never replace it.</div></article>
+    </section>
+    <section id="events" class="panel event-panel"><div class="panel-heading"><div><h2>Request telemetry <span id="event-count" class="count">0</span></h2><p>Recent requests, their risk signals, and the decision taken</p></div><select id="filter" aria-label="Filter by action"><option value="all">All decisions</option><option value="allow">Allowed</option><option value="throttle">Throttled</option><option value="block">Blocked</option><option value="deny">Denied</option><option value="error">Errors</option></select></div><div class="table-scroll"><table><thead><tr><th>TIME</th><th>REQUEST</th><th>IDENTITY</th><th>RISK</th><th>DECISION</th><th>HTTP</th><th>REASON</th></tr></thead><tbody id="event-rows"><tr><td colspan="7" class="empty">No events loaded</td></tr></tbody></table></div></section>
+    <section id="quarantines" class="panel"><div class="panel-heading"><div><h2>Active quarantines</h2><p>Time-limited identity restrictions. Manual releases are audited.</p></div><span class="pill">Automatic expiry</span></div><div id="quarantine-list"><p class="empty">Authenticate to view quarantines</p></div></section>
+    <footer><span>ZeroTrustAI <span class="muted">/ Research build</span></span><span>Metrics are measured, not promised.</span></footer>
+  </main>
+</body>
+</html>
